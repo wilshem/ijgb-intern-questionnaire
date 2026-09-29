@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>IJGB Earth Science Questionnaire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#FFFFFF;--ink:#000000;--navy:#1F4E79;--mist:#EDF2F7;--line:#D3DDE8;--muted:#4A5563;--warn:#9B2C2C;
+--air:#6E9CC4;--water:#1F4E79;--land:#8C6B45;--life:#2E7A5A;--ice:#A9CFDF;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#0E1620;--ink:#F2F5F8;--navy:#8FB8DE;--mist:#18232F;--line:#2C3B4B;--muted:#A9B6C4;--warn:#F2A0A0;}}
+:root[data-theme="dark"]{--paper:#0E1620;--ink:#F2F5F8;--navy:#8FB8DE;--mist:#18232F;--line:#2C3B4B;--muted:#A9B6C4;--warn:#F2A0A0;}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Archivo",Arial,Helvetica,sans-serif;font-size:17px;line-height:1.55}
+.wrap{max-width:680px;margin:0 auto;padding:28px 20px 64px}
+header{display:flex;align-items:center;gap:14px;margin-bottom:28px}
+header img{width:44px;height:auto}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) header img{filter:invert(1)}}
+:root[data-theme="dark"] header img{filter:invert(1)}
+header .t{font-weight:600;font-size:15px;color:var(--muted)}
+.prog{margin-bottom:26px}
+.prog .lbl{font-size:14px;color:var(--muted);margin-bottom:6px}
+.bar{height:6px;background:var(--mist);border-radius:3px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--navy);transition:width .3s}
+h1{font-size:32px;line-height:1.15;margin:0 0 14px;font-weight:700;letter-spacing:-.01em}
+h2{font-size:21px;margin:30px 0 10px;font-weight:700}
+h3{font-size:17px;margin:22px 0 6px;font-weight:600}
+p{margin:0 0 14px}
+.muted{color:var(--muted)}
+.q{margin:24px 0}
+.q .qt{font-weight:600;margin-bottom:10px}
+.opts{display:flex;flex-wrap:wrap;gap:10px}
+.opt{font:inherit;font-size:16px;padding:10px 16px;border-radius:10px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer;text-align:left}
+.opt:hover{border-color:var(--navy)}
+.opt[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:var(--paper)}
+.opt.col{display:block;width:100%}
+.opt .sub{display:block;font-size:14px;opacity:.8;margin-top:2px}
+button:focus-visible,input:focus-visible,textarea:focus-visible,a:focus-visible{outline:3px solid var(--navy);outline-offset:2px}
+input[type=text],textarea{width:100%;font:inherit;font-size:16px;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink)}
+textarea{min-height:110px;resize:vertical}
+label.f{display:block;font-weight:600;margin:20px 0 8px}
+.hint{font-size:14px;color:var(--muted);margin-top:6px}
+.nav{display:flex;justify-content:space-between;gap:12px;margin-top:36px}
+.btn{font:inherit;font-weight:600;font-size:16px;padding:12px 22px;border-radius:10px;border:1.5px solid var(--navy);cursor:pointer}
+.btn.pri{background:var(--navy);color:var(--paper)}
+.btn.sec{background:transparent;color:var(--navy)}
+.err{color:var(--warn);font-weight:600;margin-top:14px;min-height:1.2em}
+/* the sphere sort */
+.spheres{display:grid;gap:18px;margin-top:10px}
+.sph{display:grid;grid-template-columns:92px 1fr;gap:16px;align-items:center;padding:14px;border:1.5px solid var(--line);border-radius:16px}
+.orb{width:84px;height:84px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;color:#fff;transition:transform .25s}
+.orb.light{color:#0E1620}
+.sph .hook{margin:0 0 10px;font-size:15.5px}
+.rate{display:flex;gap:6px;flex-wrap:wrap}
+.rate button{width:42px;height:42px;border-radius:50%;font:inherit;font-weight:600;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer}
+.rate button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.scale{font-size:13px;color:var(--muted);margin-top:4px}
+.box{background:var(--mist);border-radius:14px;padding:18px 20px;margin:18px 0}
+.terms dt{font-weight:600}
+.terms dd{margin:0 0 10px}
+.card{display:block;text-decoration:none;color:var(--ink);border:1.5px solid var(--line);border-radius:14px;padding:16px 18px;margin:12px 0}
+.card:hover{border-color:var(--navy)}
+.card .k{font-size:14px;color:var(--navy);font-weight:600}
+.card .ti{font-weight:700;font-size:17px;margin:2px 0}
+.card .by{font-size:14px;color:var(--muted)}
+.tag{display:inline-block;width:14px;height:14px;border-radius:50%;vertical-align:-2px;margin-right:8px}
+.check{display:flex;gap:10px;align-items:center;margin:8px 0;font-size:16px}
+.check input{width:20px;height:20px}
+.summary{white-space:pre-wrap;font-size:14.5px;background:var(--mist);border-radius:12px;padding:16px;max-height:340px;overflow:auto}
+.status{margin-top:12px;font-weight:600}
+.row{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.linkbtn{background:none;border:none;padding:0;font:inherit;color:var(--navy);text-decoration:underline;cursor:pointer}
+.reset{margin-top:48px;font-size:14px}
+.reset button{background:none;border:none;color:var(--muted);text-decoration:underline;cursor:pointer;font:inherit;padding:0}
+@media (max-width:520px){h1{font-size:27px}.sph{grid-template-columns:1fr}.orb{width:64px;height:64px;font-size:14px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><img src="data:image/png;base64,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" alt="IJGB logo"><div class="t">It Just Gets Better<br>Earth Science Questionnaire</div></header>
+<main id="app"></main>
+<div class="reset"><button id="resetBtn" type="button">Start over</button></div>
+</div>
+<script>
+// ======= SETTINGS: edit these three lines =======
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbynnyg4xnL72ZkRqLe4TdlValbqGydT0WZskIsjKdsxjXpnligTgp6RcaAoqKBUKpnL/exec";          // Paste your Google Apps Script web app URL here
+const SUBMIT_CODE = "ijgb-fall26"; // Must match SUBMIT_CODE in Code.gs
+const BETTER_EMAIL = "";       // Optional: your email for the backup email button
+// ================================================
+
+const STORE_KEY = "ijgb-earth-q-v1";
+
+const LEARN = [
+  { id: "learn_first", q: "When you learn something new, what helps you most at first?", o: ["Watching a video", "Reading about it", "Trying it myself"] },
+  { id: "learn_stuck", q: "When a problem gets hard, what do you usually do first?", o: ["Keep working on it alone", "Look it up", "Ask someone early"] },
+  { id: "learn_instr", q: "How do you like to get instructions?", o: ["Step by step", "The goal, then I figure it out", "An example I can follow"] },
+  { id: "learn_focus", q: "When do you focus best?", o: ["Morning", "Afternoon", "Evening"] },
+];
+
+const LENSES = [
+  { id: "how", name: "How it works", sub: "The science behind it" },
+  { id: "measure", name: "How we measure it", sub: "The tools: satellites, sensors, aircraft, and field samples" },
+  { id: "do", name: "What we do about it", sub: "Who is affected, and the solutions" },
+];
+
+const ORDER = ["air", "water", "land", "life", "ice"];
+
+const S = {
+  air: {
+    name: "Air", color: "var(--air)", light: false,
+    hook: "A Pacific hurricane's winds jumped 104 mph in 24 hours.",
+    video: { title: "The Basics of Hurricanes and Tropical Weather Forecasting", by: "Penn State University", url: "https://courses.ems.psu.edu/earth107/node/1045", note: "Opens a Penn State course page. The video is on that page." },
+    article: { title: "Explosive Intensification for Hurricane Polo", by: "NASA Earth Observatory", url: "https://science.nasa.gov/earth/earth-observatory/explosive-intensification-for-hurricane-polo/" },
+    terms: [
+      ["Tropical depression", "An early, weak storm with organized, rotating winds."],
+      ["Rapid intensification", "A fast increase in a storm's wind speed. In its extreme form, winds rise at least 69 mph in 24 hours."],
+      ["Wind shear", "A change in wind speed or direction at different heights. Strong shear tears storms apart. Weak shear lets them grow."],
+      ["Sea surface temperature anomaly", "How much warmer or cooler the ocean surface is than normal for that date."],
+      ["Eyewall replacement", "The storm builds a new ring of storms around its eye, and the old ring collapses. The storm often weakens for a short time."],
+    ],
+    why: "Polo's winds rose by 104 mph in 24 hours, and it reached Category 5. It moved over water as hot as 90°F, which was 2 to 3 degrees Celsius warmer than usual.",
+    watch: "Do not assume El Niño caused this storm. Two scientists in the article warn against that link.",
+    q: { how: "Which conditions came together to make Polo grow so fast?", measure: "The article names satellites, aircraft, ships, and buoys. Which tool told scientists the most? Why?", do: "If you lived on Mexico's Pacific coast, what would you need to know, and how early?" },
+  },
+  water: {
+    name: "Water", color: "var(--water)", light: false,
+    hook: "AI scanned more than a million satellite images to map algae across the world's oceans.",
+    video: { title: "Video 3: What are Algal Blooms?", by: "Florida Atlantic University", url: "https://www.ces.fau.edu/usgs/understanding-algae/video3.php", extra: "https://m.youtube.com/watch?v=Ha0-GuIO6RI" },
+    article: { title: "Satellites and AI Map Global Algal Blooms", by: "NOAA", url: "https://www.nesdis.noaa.gov/news/noaa-using-satellites-ai-map-global-algal-blooms" },
+    terms: [
+      ["Algae", "Plant-like organisms that make food from sunlight. Some are single cells. Some are large seaweed."],
+      ["Algal bloom", "A fast increase in algae in a body of water."],
+      ["Nutrient runoff", "Fertilizer and sewage that rain washes into rivers and the sea."],
+      ["Macroalgae and microalgae", "Large seaweed you can see, and tiny single cells that form a surface scum."],
+      ["Deep learning", "A type of artificial intelligence that learns to spot patterns from many examples."],
+    ],
+    why: "Scientists used AI on more than one million satellite images from 2003 to 2022. They found blooms that covered a total of 44 million square kilometers, more than four times the size of the United States. It is the first complete picture of floating algae for the whole ocean.",
+    watch: "Not all blooms are bad. Moderate blooms can help ocean life. Large, long blooms cause the harm.",
+    q: { how: "Which two conditions feed the largest blooms?", measure: "Why did scientists need AI instead of people looking at each image?", do: "Who loses money when a bloom reaches the coast?" },
+  },
+  land: {
+    name: "Land", color: "var(--land)", light: false,
+    hook: "Parts of Mexico City are sinking more than half an inch every month.",
+    video: { title: "Characteristics of Karst Geology", by: "Florida's State Geologist, via CPALMS", url: "https://www.cpalms.org/ResourceCollection/Preview/535", note: "Opens CPALMS, a Florida education site." },
+    article: { title: "U.S.-Indian Space Mission Maps Extreme Sinking in Mexico City", by: "NASA", url: "https://www.nasa.gov/missions/nisar/us-indian-space-mission-maps-extreme-subsidence-in-mexico-city/" },
+    terms: [
+      ["Aquifer", "A layer of rock or soil underground that holds water."],
+      ["Groundwater", "Water stored below the surface."],
+      ["Subsidence", "The slow sinking of the ground surface."],
+      ["Karst", "A landscape where water dissolves rock and forms caves, springs, and sinkholes."],
+      ["Radar satellite", "A satellite that sends signals down and measures the echo. It works through clouds and at night."],
+    ],
+    why: "Mexico City has about 20 million people and sits on an aquifer. A century of groundwater pumping has compacted the old lakebed below the city. Some areas sink more than half an inch per month. One monument has needed 14 steps added to its base as the ground around it sinks.",
+    watch: "The video and the article show two ways the ground drops. In Florida, sinkholes form when the surface collapses into holes that groundwater dissolved in limestone. In Mexico City, pumping squeezes soft clay. Same trigger, different process.",
+    q: { how: "Why does pumping water out make the ground drop?", measure: "How can a satellite detect ground that sinks less than an inch?", do: "A city needs the water, but the ground keeps sinking. What should it do?" },
+  },
+  life: {
+    name: "Life", color: "var(--life)", light: false,
+    hook: "Most of Florida's planted branching corals died in a 2023 heat wave, so scientists changed their plan.",
+    video: { title: "Coral Bleaching", by: "HHMI BioInteractive", url: "https://www.biointeractive.org/classroom-resources/coral-bleaching" },
+    article: { title: "NOAA and Partners Launch Next-Generation Coral Restoration", by: "NOAA Fisheries", url: "https://www.fisheries.noaa.gov/feature-story/noaa-and-partners-launch-next-generation-coral-restoration-following-florida-coral", note: "This article is long. Focus on \"Finding a New Way Forward,\" \"Flonduran Coral,\" and \"Outplanting Massive Corals.\" Skim the rest." },
+    terms: [
+      ["Polyp", "The small animal that builds coral. A reef is millions of them."],
+      ["Symbiotic algae", "Tiny algae that live inside coral and feed it through sunlight."],
+      ["Bleaching", "Coral pushes out its algae under heat stress and turns white."],
+      ["Outplanting", "Moving corals grown in a nursery onto a reef."],
+      ["Selective breeding", "Breeding the strongest survivors so their young inherit their traits."],
+    ],
+    why: "After the 2023 heat wave, fewer than 22 percent of planted staghorn corals survived, and less than 5 percent of elkhorn. Brain and boulder corals did much better, so scientists changed their plan. They also breed Florida corals with corals from a hot reef in Honduras.",
+    watch: "A bleached coral is sick, not dead. It can recover if the heat stress ends in time.",
+    q: { how: "Why did some coral types survive the heat better than others?", measure: "How did scientists know how many planted corals survived?", do: "Pick one method from the article. Would you try it first? Why?" },
+  },
+  ice: {
+    name: "Ice", color: "var(--ice)", light: true,
+    hook: "Scientists mapped almost 2,000 valleys hidden under Greenland's ice.",
+    video: { title: "Melting Ice, Rising Seas", by: "American Museum of Natural History", url: "https://www.amnh.org/explore/videos/earth-and-climate/predicting-future-warming" },
+    article: { title: "Uncovering the Valleys Hidden Below Greenland's Ice", by: "NASA Earth Observatory", url: "https://science.nasa.gov/earth/earth-observatory/uncovering-the-valleys-hidden-below-greenlands-ice/" },
+    terms: [
+      ["Ice sheet", "A huge mass of ice that covers land. Greenland and Antarctica have the only two."],
+      ["Glacier", "A river of ice that moves slowly downhill."],
+      ["Bedrock", "Solid rock under soil or ice."],
+      ["Subglacial", "Under a glacier or ice sheet."],
+      ["Calving", "When large pieces of ice break off a glacier into the sea."],
+    ],
+    why: "Scientists mapped 1,943 valleys under Greenland's ice, and about a third are new. Ice flows fastest through valleys, so their location helps predict how the ice sheet will change as it retreats.",
+    watch: "Melting ice on land raises sea level. Melting sea ice does not, because it already floats. This video and article are about land ice. The article also says groundwater likely helped carve these valleys, which links to Land.",
+    q: { how: "How did these valleys form before the ice covered them?", measure: "How can scientists map land under more than a mile of ice that no one has ever seen?", do: "Why would a coastal city care about valleys under Greenland?" },
+  },
+};
+const app = document.getElementById("app");
+let st = load();
+
+function blank() {
+  return { step: "welcome", name: "", learn: {}, ratings: {}, picks: [], connect: "", lens: {}, refl: {}, final: "", finalWhy: "", submitted: false };
+}
+function load() {
+  try { const v = localStorage.getItem(STORE_KEY); if (v) return Object.assign(blank(), JSON.parse(v)); } catch (e) {}
+  return blank();
+}
+function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(st)); } catch (e) {} }
+function esc(s) { return String(s || "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
+
+// ---- top-two logic ----
+function ranked() { return ORDER.slice().sort((a, b) => (st.ratings[b] || 0) - (st.ratings[a] || 0)); }
+function tieInfo() {
+  const r = ranked(), second = st.ratings[r[1]];
+  const locked = ORDER.filter(k => st.ratings[k] > second);
+  const tied = ORDER.filter(k => st.ratings[k] === second);
+  return { locked, tied, need: 2 - locked.length, isTie: locked.length + tied.length > 2 };
+}
+function topTwo() { return st.picks.length === 2 ? st.picks : ranked().slice(0, 2); }
+
+// ---- step sequence ----
+function steps() {
+  const s = ["welcome", "learn", "sort"];
+  if (Object.keys(st.ratings).length === 5 && tieInfo().isTie) s.push("tie");
+  s.push("connect", "lens", "read0", "refl0", "read1", "refl1", "final", "done");
+  return s;
+}
+function go(dir) {
+  const s = steps(), i = s.indexOf(st.step);
+  st.step = s[Math.max(0, Math.min(s.length - 1, i + dir))];
+  save(); render(); window.scrollTo(0, 0);
+}
+function err(msg) { document.getElementById("err").textContent = msg; }
+
+function progress() {
+  const s = steps(), i = s.indexOf(st.step);
+  return `<div class="prog"><div class="lbl">Step ${i + 1} of ${s.length}</div><div class="bar"><i style="width:${Math.round((i + 1) / s.length * 100)}%"></i></div></div>`;
+}
+function nav(backOk = true, nextLabel = "Continue") {
+  return `<div class="err" id="err" role="alert"></div><div class="nav">${backOk ? `<button class="btn sec" data-act="back">Back</button>` : "<span></span>"}<button class="btn pri" data-act="next">${nextLabel}</button></div>`;
+}
+function optBtns(group, options, current, col) {
+  return `<div class="opts">${options.map(o => {
+    const val = typeof o === "string" ? o : o.id, lbl = typeof o === "string" ? o : o.name, sub = typeof o === "string" ? "" : (o.sub ? `<span class="sub">${esc(o.sub)}</span>` : "");
+    return `<button type="button" class="opt${col ? " col" : ""}" data-group="${group}" data-val="${esc(val)}" aria-pressed="${current === val}">${esc(lbl)}${sub}</button>`;
+  }).join("")}</div>`;
+}
+function dot(k) { return `<span class="tag" style="background:${S[k].color}"></span>`; }
+
+// ---- screens ----
+const V = {
+  welcome() {
+    return `<h1>Find your Earth Science focus</h1>
+<p>This questionnaire helps us choose your research topic. It also helps me understand how you learn, so I can give you better instructions.</p>
+<p>There are no wrong answers. You will rate five areas of Earth Science, pick two, then watch a short video and read one article for each.</p>
+<p class="muted">Plan for about 2 hours. Your progress saves on this device, so you can stop and come back. Log this time on ADP.</p>
+<label class="f" for="name">Your first name</label><input type="text" id="name" value="${esc(st.name)}" autocomplete="given-name">
+${nav(false, "Start")}`;
+  },
+  learn() {
+    return `<h1>How you learn</h1><p>Pick the answer that fits you best.</p>
+${LEARN.map(L => `<div class="q"><div class="qt">${esc(L.q)}</div>${optBtns("learn:" + L.id, L.o, st.learn[L.id])}</div>`).join("")}${nav()}`;
+  },
+  sort() {
+    return `<h1>Rate each area</h1><p>Read each headline. How much do you want to learn about this area?</p><p class="scale">1 = not interested &nbsp;&nbsp; 5 = very interested</p>
+<div class="spheres">${ORDER.map(k => {
+      const r = st.ratings[k] || 0, sc = 0.8 + r * 0.05;
+      return `<div class="sph"><div class="orb${S[k].light ? " light" : ""}" style="background:${S[k].color};transform:scale(${sc})">${S[k].name}</div>
+<div><p class="hook">${esc(S[k].hook)}</p><div class="rate" role="group" aria-label="Rate ${S[k].name}">${[1, 2, 3, 4, 5].map(n => `<button type="button" data-rate="${k}" data-val="${n}" aria-pressed="${r === n}">${n}</button>`).join("")}</div></div></div>`;
+    }).join("")}</div>${nav()}`;
+  },
+  tie() {
+    const t = tieInfo();
+    const lockedTxt = t.locked.length ? `<p>${dot(t.locked[0])}<strong>${S[t.locked[0]].name}</strong> is already in your top two.</p>` : "";
+    return `<h1>Break the tie</h1>${lockedTxt}<p>These areas tied. Pick ${t.need === 1 ? "the one" : "the two"} you would rather explain to a friend.</p>
+${optBtns("tie", t.tied.map(k => ({ id: k, name: S[k].name, sub: S[k].hook })), null, true)}${nav()}`;
+  },
+  connect() {
+    const a = topTwo()[0];
+    return `<h1>Make a connection</h1><p>Real problems usually sit where two areas meet. Which other area connects most to ${dot(a)}<strong>${S[a].name}</strong>?</p>
+${optBtns("connect", ORDER.filter(k => k !== a).map(k => ({ id: k, name: S[k].name })), st.connect)}${nav()}`;
+  },
+  lens() {
+    return `<h1>Choose your lens</h1><p>Every topic can be studied three ways. For each of your top two areas, pick the question that interests you most.</p>
+${topTwo().map(k => `<div class="q"><div class="qt">${dot(k)}${S[k].name}</div>${optBtns("lens:" + k, LENSES, st.lens[k], true)}</div>`).join("")}${nav()}`;
+  },
+  read(i) {
+    const k = topTwo()[i], d = S[k], lensId = st.lens[k], lens = LENSES.find(l => l.id === lensId);
+    const videoFirst = st.learn.learn_first !== "Reading about it";
+    const vid = `<a class="card" href="${d.video.url}" target="_blank" rel="noopener"><div class="k">Watch</div><div class="ti">${esc(d.video.title)}</div><div class="by">${esc(d.video.by)}</div>${d.video.note ? `<div class="hint">${esc(d.video.note)}</div>` : ""}</a>${d.video.extra ? `<a class="card" href="${d.video.extra}" target="_blank" rel="noopener"><div class="k">Optional</div><div class="ti">Video 5: What Can We Do About HABs?</div><div class="by">YouTube</div></a>` : ""}`;
+    const art = `<a class="card" href="${d.article.url}" target="_blank" rel="noopener"><div class="k">Read</div><div class="ti">${esc(d.article.title)}</div><div class="by">${esc(d.article.by)}</div>${d.article.note ? `<div class="hint">${esc(d.article.note)}</div>` : ""}</a>`;
+    return `<h1>${dot(k)}${d.name}</h1><p class="muted">Area ${i + 1} of 2. Read this primer first. It takes two minutes.</p>
+<div class="box"><h3 style="margin-top:0">Your question while you ${videoFirst ? "watch and read" : "read and watch"}</h3><p style="margin:0"><strong>${esc(lens.name)}:</strong> ${esc(d.q[lensId])}</p></div>
+<h2>Key terms</h2><dl class="terms">${d.terms.map(([t, x]) => `<dt>${esc(t)}</dt><dd>${esc(x)}</dd>`).join("")}</dl>
+<h2>Why it matters</h2><p>${esc(d.why)}</p>
+<h2>Watch out</h2><p>${esc(d.watch)}</p>
+<h2>${videoFirst ? "Watch, then read" : "Read, then watch"}</h2>${videoFirst ? vid + art : art + vid}
+<p class="hint">Links open in a new tab. Come back here when you finish.</p>${nav(true, "I finished both")}`;
+  },
+  refl(i) {
+    const k = topTwo()[i], r = st.refl[k] || {};
+    return `<h1>${dot(k)}${S[k].name}: your take</h1><p>Write in your own words. Do not copy from the article.</p>
+<div class="check"><input type="checkbox" id="watched" ${r.watched ? "checked" : ""}><label for="watched">I watched the video</label></div>
+<div class="check"><input type="checkbox" id="read" ${r.read ? "checked" : ""}><label for="read">I read the article</label></div>
+<label class="f" for="summary">Summarize what you learned in three sentences.</label><textarea id="summary">${esc(r.summary)}</textarea>
+<label class="f" for="surprise">What surprised you?</label><textarea id="surprise" style="min-height:80px">${esc(r.surprise)}</textarea>
+<label class="f" for="question">What is one question you would ask the scientists?</label><textarea id="question" style="min-height:80px">${esc(r.question)}</textarea>
+<label class="f" for="answer">Your answer to your lens question</label><div class="hint" style="margin-top:-4px;margin-bottom:8px">${esc(S[k].q[st.lens[k]])}</div><textarea id="answer" style="min-height:80px">${esc(r.answer)}</textarea>
+${nav()}`;
+  },
+  final() {
+    const [a, b] = topTwo();
+    return `<h1>Your choice</h1><p>Which area do you want to research for the rest of the fall?</p>
+${optBtns("final", [{ id: a, name: S[a].name }, { id: b, name: S[b].name }, { id: "field", name: "None of these fit", sub: "I am more drawn to fieldwork or lab work" }], st.final, true)}
+<label class="f" for="why">Why? Two or three sentences.</label><textarea id="why">${esc(st.finalWhy)}</textarea>${nav(true, "Review my answers")}`;
+  },
+  done() {
+    const txt = plain();
+    const copyRow = `<div class="row"><button class="btn sec" data-act="copy">Copy my answers</button><button class="btn sec" data-act="download">Download</button>${BETTER_EMAIL ? `<button class="btn sec" data-act="email">Email</button>` : ""}</div>`;
+    if (st.submitted) {
+      return `<h1>Answers sent</h1><p>Your answers went to Better. You are done with this questionnaire. Log your time on ADP.</p>
+<div class="summary" id="sum">${esc(txt)}</div>
+<p class="hint" style="margin-top:14px">Want a copy for yourself? <button class="linkbtn" data-act="copy">Copy</button> or <button class="linkbtn" data-act="download">download</button> your answers.</p>
+<div class="status" id="status" role="status"></div>`;
+    }
+    return `<h1>Review and submit</h1><p>Check your answers. When they look right, submit them.</p>
+<div class="summary" id="sum">${esc(txt)}</div>
+<div class="row"><button class="btn pri" data-act="submit">Submit my answers</button></div>
+<div class="status" id="status" role="status"></div>
+${sendFailed ? `<p style="margin-top:18px">Your answers did not send. Check your internet connection and try Submit again. If it still fails, copy or download your answers and send them to Better.</p>${copyRow}` : ""}
+<div class="nav"><button class="btn sec" data-act="back">Back</button><span></span></div>`;
+  },
+};
+
+// ---- output ----
+function record() {
+  const [a, b] = topTwo(), ra = st.refl[a] || {}, rb = st.refl[b] || {};
+  const nm = k => k === "field" ? "Fieldwork or lab work" : (S[k] ? S[k].name : "");
+  const ln = k => (LENSES.find(l => l.id === st.lens[k]) || {}).name || "";
+  return {
+    code: SUBMIT_CODE, submitted_at: new Date().toISOString(), name: st.name,
+    learn_first: st.learn.learn_first || "", learn_stuck: st.learn.learn_stuck || "", learn_instr: st.learn.learn_instr || "", learn_focus: st.learn.learn_focus || "",
+    rate_air: st.ratings.air || "", rate_water: st.ratings.water || "", rate_land: st.ratings.land || "", rate_life: st.ratings.life || "", rate_ice: st.ratings.ice || "",
+    top1: nm(a), top2: nm(b), connect: nm(st.connect), lens1: ln(a), lens2: ln(b),
+    watched1: ra.watched ? "Yes" : "No", read1: ra.read ? "Yes" : "No", summary1: ra.summary || "", surprise1: ra.surprise || "", question1: ra.question || "", answer1: ra.answer || "",
+    watched2: rb.watched ? "Yes" : "No", read2: rb.read ? "Yes" : "No", summary2: rb.summary || "", surprise2: rb.surprise || "", question2: rb.question || "", answer2: rb.answer || "",
+    final_choice: nm(st.final), final_why: st.finalWhy,
+  };
+}
+function plain() {
+  const r = record();
+  return `IJGB Earth Science Questionnaire
+Name: ${r.name}
+
+HOW YOU LEARN
+Learning something new: ${r.learn_first}
+When stuck: ${r.learn_stuck}
+Instructions: ${r.learn_instr}
+Best focus time: ${r.learn_focus}
+
+RATINGS (1 to 5)
+Air ${r.rate_air}, Water ${r.rate_water}, Land ${r.rate_land}, Life ${r.rate_life}, Ice ${r.rate_ice}
+Top two: ${r.top1}, ${r.top2}
+Connects ${r.top1} to: ${r.connect}
+
+${r.top1.toUpperCase()} (lens: ${r.lens1})
+Watched video: ${r.watched1}. Read article: ${r.read1}.
+Summary: ${r.summary1}
+Surprise: ${r.surprise1}
+Question for scientists: ${r.question1}
+Lens answer: ${r.answer1}
+
+${r.top2.toUpperCase()} (lens: ${r.lens2})
+Watched video: ${r.watched2}. Read article: ${r.read2}.
+Summary: ${r.summary2}
+Surprise: ${r.surprise2}
+Question for scientists: ${r.question2}
+Lens answer: ${r.answer2}
+
+FINAL CHOICE: ${r.final_choice}
+Why: ${r.final_why}`;
+}
+function status(msg) { const el = document.getElementById("status"); if (el) el.textContent = msg; }
+
+let sendFailed = false;
+async function submit() {
+  if (!SHEET_URL) { sendFailed = true; render(); status("The sheet link is not set up yet."); return; }
+  const btn = document.querySelector('[data-act="submit"]'); if (btn) { btn.disabled = true; btn.textContent = "Sending..."; }
+  try {
+    await fetch(SHEET_URL, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(record()) });
+    st.submitted = true; sendFailed = false; save(); render(); window.scrollTo(0, 0);
+  } catch (e) { sendFailed = true; render(); status("Sending failed."); }
+}
+
+// ---- events ----
+function collect() {
+  if (st.step === "welcome") st.name = document.getElementById("name").value.trim();
+  if (st.step === "refl0" || st.step === "refl1") {
+    const k = topTwo()[st.step === "refl0" ? 0 : 1];
+    st.refl[k] = { watched: document.getElementById("watched").checked, read: document.getElementById("read").checked,
+      summary: document.getElementById("summary").value.trim(), surprise: document.getElementById("surprise").value.trim(),
+      question: document.getElementById("question").value.trim(), answer: document.getElementById("answer").value.trim() };
+  }
+  if (st.step === "final") st.finalWhy = document.getElementById("why").value.trim();
+  save();
+}
+function valid() {
+  const s = st.step;
+  if (s === "welcome" && !st.name) return "Enter your first name.";
+  if (s === "learn" && LEARN.some(L => !st.learn[L.id])) return "Answer all four questions.";
+  if (s === "sort" && Object.keys(st.ratings).length < 5) return "Rate all five areas.";
+  if (s === "tie" && st.picks.length !== 2) return "Pick " + (tieInfo().need === 1 ? "one area." : "two areas.");
+  if (s === "connect" && !st.connect) return "Pick one area.";
+  if (s === "lens" && topTwo().some(k => !st.lens[k])) return "Pick a lens for both areas.";
+  if (s === "refl0" || s === "refl1") {
+    const r = st.refl[topTwo()[s === "refl0" ? 0 : 1]];
+    if (!r.summary || !r.surprise || !r.question || !r.answer) return "Answer all four questions.";
+  }
+  if (s === "final" && (!st.final || !st.finalWhy)) return "Pick one option and explain why.";
+  return "";
+}
+
+app.addEventListener("click", e => {
+  const t = e.target.closest("button"); if (!t) return;
+  if (t.dataset.rate) {
+    st.ratings[t.dataset.rate] = +t.dataset.val; st.picks = []; st.connect = ""; st.lens = {}; save(); render(); return;
+  }
+  if (t.dataset.group) {
+    const [g, id] = t.dataset.group.split(":"), v = t.dataset.val;
+    if (g === "learn") st.learn[id] = v;
+    if (g === "connect") st.connect = v;
+    if (g === "lens") st.lens[id] = v;
+    if (g === "final") { st.finalWhy = (document.getElementById("why") || {}).value || st.finalWhy; st.final = v; }
+    if (g === "tie") {
+      const ti = tieInfo(); let chosen = st.picks.filter(k => ti.tied.includes(k));
+      chosen = chosen.includes(v) ? chosen.filter(k => k !== v) : chosen.concat(v).slice(-ti.need);
+      st.picks = chosen.length === ti.need ? ti.locked.concat(chosen) : chosen;
+      save(); render();
+      document.querySelectorAll('[data-group="tie"]').forEach(b => b.setAttribute("aria-pressed", chosen.includes(b.dataset.val)));
+      return;
+    }
+    if (g === "connect" || g === "lens") { /* no reset */ }
+    save(); render(); return;
+  }
+  const act = t.dataset.act;
+  if (act === "back") { collect(); go(-1); }
+  if (act === "next") { collect(); const m = valid(); if (m) { err(m); return; } if (st.step === "sort" && !tieInfo().isTie) st.picks = []; go(1); }
+  if (act === "submit") submit();
+  if (act === "copy") {
+    const txt = plain();
+    (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(() => status("Copied. Paste it into a message to Better."))
+      .catch(() => { const r = document.createRange(); r.selectNodeContents(document.getElementById("sum")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); status("Press Ctrl+C or Cmd+C to copy the selected text."); });
+  }
+  if (act === "download") {
+    const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([plain()], { type: "text/plain" }));
+    a.download = `earth-science-answers-${(st.name || "intern").toLowerCase()}.txt`; document.body.appendChild(a); a.click(); a.remove();
+    status("Downloaded. If nothing happened, use Copy instead.");
+  }
+  if (act === "email") location.href = `mailto:${BETTER_EMAIL}?subject=${encodeURIComponent("Earth Science questionnaire: " + st.name)}&body=${encodeURIComponent(plain())}`;
+});
+document.getElementById("resetBtn").addEventListener("click", () => {
+  if (confirm("Start over? This clears your answers on this device.")) { st = blank(); save(); render(); }
+});
+
+function render() {
+  let h;
+  if (st.step === "read0") h = V.read(0); else if (st.step === "read1") h = V.read(1);
+  else if (st.step === "refl0") h = V.refl(0); else if (st.step === "refl1") h = V.refl(1);
+  else h = V[st.step]();
+  app.innerHTML = progress() + h;
+  if (st.step === "tie") { const ti = tieInfo(); document.querySelectorAll('[data-group="tie"]').forEach(b => b.setAttribute("aria-pressed", st.picks.includes(b.dataset.val) && ti.tied.includes(b.dataset.val))); }
+}
+render();
+</script></body></html>
